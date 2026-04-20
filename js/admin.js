@@ -463,6 +463,7 @@ window.gradeUpdateRow = function(sid, uvMax, mtMax, faolMax) {
   const mtEl   = document.getElementById('mt_'   + sid);
   const faolEl = document.getElementById('faol_' + sid);
   const liveEl = document.getElementById('glv_'  + sid);
+  const attEl  = document.getElementById('att_'  + sid);
   if (!uvEl || !liveEl) return;
   const uv   = Math.min(uvMax,   Math.max(0, parseInt(uvEl.value)||0));
   const mt   = Math.min(mtMax,   Math.max(0, parseInt(mtEl?.value)||0));
@@ -470,6 +471,10 @@ window.gradeUpdateRow = function(sid, uvMax, mtMax, faolMax) {
   const pct  = calcPercent(uv, mt, faol);
   liveEl.textContent = pct + '%';
   liveEl.style.color = pctColor(pct);
+  // Birorta bal kiritilsa → davomat avtomatik "keldi" ga yoqilsin
+  if (attEl && (uv > 0 || mt > 0 || faol > 0)) {
+    attEl.classList.add('on');
+  }
 };
 window.buildGradeForm = function() {
   const gid = document.getElementById('grade-group').value;
@@ -483,7 +488,7 @@ window.buildGradeForm = function() {
   // Update hint box
   const hintEl = document.getElementById('grade-hint-box');
   const faolMax = DATA.settings.faolMax || 25;
-  if (hintEl) hintEl.innerHTML = `⚡ UV: 0–${uvMax} · MT: 0–${mtMax} · Faollik: 0–${faolMax} · Davomat: statistika`;
+  if (hintEl) hintEl.innerHTML = `⚡ UV: 0–${uvMax} · MT: 0–${mtMax} · Faollik: 0–${faolMax} · <span id='grade-autosave-hint' style='color:#10B981;transition:opacity 1s;opacity:0'>✅ Saqlandi</span>`;
 
   if (!gid || !DATA.groups[gid]) {
     container.innerHTML = '<div class="empty" style="padding:20px 0"><div class="ei">👥</div><p>Guruh tanlang</p></div>';
