@@ -10,6 +10,7 @@ const CORE_FILES = [
   './',
   './index.html',
   './manifest.json',
+  './assets/icons/favicon.ico',
   './assets/icons/icon.svg',
   // CSS fayllar
   './css/main.css',
